@@ -26,8 +26,8 @@ public class State {
         this.queues = queues;
     }
     public void createMachine(){
-        Machine m=new Machine();
-        machines.add(m);
+        //Machine m=new Machine();
+      //  machines.add(m);
     }
     public void createQueue(){
         LinkedBasedQ q=new LinkedBasedQ();

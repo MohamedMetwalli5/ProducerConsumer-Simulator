@@ -2,13 +2,13 @@ package eg.edu.alexu.csd.oop.mail;
 
 import java.awt.*;
 import java.util.ArrayList;
-public class Machine implements Runnable{
-    Color defaultColor;
-    Product currentProduct;
-    ArrayList<LinkedBasedQ> qin=new ArrayList<LinkedBasedQ>();
-    ArrayList<LinkedBasedQ> qout=new ArrayList<LinkedBasedQ>();
-    Boolean state=false; //The state of the machine (True for Working and false for Waiting)
-    int workingTime; //random int from 500 to 5000 milliseconds
+public class Machine implements Observable{
+   private  Color defaultColor;
+   private  Product currentProduct;
+   private  ArrayList<Observer> qin=new ArrayList<Observer>();
+   private  LinkedBasedQ qout=new LinkedBasedQ();
+   private  Boolean state=false; //The state of the machine (True for Working and false for Waiting)
+   private  int workingTime; //random int from 500 to 5000 milliseconds
 
 
     //Constructor
@@ -34,28 +34,31 @@ public class Machine implements Runnable{
         this.currentProduct = currentProduct;
     }
 
-    public ArrayList<LinkedBasedQ> getQin() {
+    public ArrayList<Observer> getQin() {
         return qin;
     }
 
-    public void setQin(ArrayList<LinkedBasedQ> qin) {
+    public void setQin(ArrayList<Observer> qin) {
         this.qin = qin;
     }
 
-    public ArrayList<LinkedBasedQ> getQout() {
+    public LinkedBasedQ getQout() {
         return qout;
     }
 
-    public void setQout(ArrayList<LinkedBasedQ> qout) {
+    public void setQout(LinkedBasedQ qout) {
         this.qout = qout;
     }
 
     public Boolean getState() {
+
         return state;
+
     }
 
     public void setState(Boolean state) {
         this.state = state;
+        notifyObservers();
     }
 
     public int getWorkingTime() {
@@ -66,29 +69,22 @@ public class Machine implements Runnable{
         this.workingTime = workingTime;
     }
 
-    //Run Method
+
+
     @Override
-    public void run(){//Consume from the first non empty queue or wait,Push the product after consuming in a random queue
-        for(;;) {
-            //Loop to find the first non empty queue or wait if all queues are empty
-            int index=0;
-            while(qin.get(index).isEmpty()){
-                synchronized (qin.get(index)){
-                    try {
-                        qin.get(index).wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                index++;
-            }
-            try {
-                wait(workingTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public void attachObserver(Observer q) {
+        this.qin.add(q);
     }
 
+    @Override
+    public void detachObserver(Observer q) {
+        this.qin.remove(q);
+    }
 
+    @Override
+    public void notifyObservers() {
+        for (Observer o : this.qin){
+            o.update(this,this.getState());
+        }
+    }
 }

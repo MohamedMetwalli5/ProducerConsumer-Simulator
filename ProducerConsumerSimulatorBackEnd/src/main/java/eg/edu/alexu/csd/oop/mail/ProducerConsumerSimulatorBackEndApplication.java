@@ -9,57 +9,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
- 	class runner implements Runnable{
-	ArrayList<LinkedBasedQ> queues;
-	public runner(LinkedBasedQ q,ArrayList<LinkedBasedQ> queues){
-		this.queues=queues;
-		this.queues.add(q);
-	}
 
-	public void run(){
-		synchronized (queues) {
-			try {
-				queues.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Waiting");
-		}
-	}
-		}
-@CrossOrigin
-@SpringBootApplication
 public class ProducerConsumerSimulatorBackEndApplication {
-	MainClass main=new MainClass();
-	public static void main(String[] args) {
-		LinkedBasedQ q=new LinkedBasedQ();
-		ArrayList<LinkedBasedQ> queues=new ArrayList<>();
-		runner n=new runner(q,queues);
-		Thread t=new Thread(n,"Runner");
-		t.start();
-		synchronized (queues) {
-			queues.notify();
-		}
+
+
+	public static void main(String args[]){
 
 	}
 
-	@PostMapping("/produce")
-	public String produce(){
+	/*public String produce(){
 		return main.produce();
 	}
 
-	@PostMapping("/createMachine")
 	public void createMachine(){
 		main.createMachine();
 	}
 
-	@PostMapping("/createQueue")
 	public void createQueue(){
 		main.createQueue();
 	}
-	@PostMapping("/addInQueue")
+
 	public void addInQueue(@RequestBody String indices){//TODO consistent with request sent from frontend (name is machineIndex and queueIndex)
 		ObjectMapper mapper=new ObjectMapper();
 		Map<String,Integer> indicesMap=null;
@@ -70,7 +42,7 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		}
 		main.addInQueue(indicesMap.get("machineIndex"),indicesMap.get("queueIndex"));
 	}
-	@PostMapping("addOutQueue")
+
 	public void addOutQueue(@RequestBody String indices){//Todo consistent with request sent from frontend (name is machineIndex and queueIndex)
 		ObjectMapper mapper=new ObjectMapper();
 		Map<String,Integer> indicesMap=null;
@@ -80,5 +52,6 @@ public class ProducerConsumerSimulatorBackEndApplication {
 			e.printStackTrace();
 		}
 		main.addOutQueue(indicesMap.get("machineIndex"),indicesMap.get("queueIndex"));
-	}
+	}*/
+
 }
