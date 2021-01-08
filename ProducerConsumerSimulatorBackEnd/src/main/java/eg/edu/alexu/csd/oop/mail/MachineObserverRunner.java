@@ -14,10 +14,11 @@ public class MachineObserverRunner implements Runnable {
     ArrayList<Machine> readyMachines=mo.getReadyMachines();
     public void run(){
         while(!killThread) {
-            synchronized (this.mo.getQueue()) {
+            synchronized (this.mo) {
                 if (!this.mo.getQueue().isEmpty() && !this.readyMachines.isEmpty()) {//if the queue has products and there are ready machines
                     Machine readyMachine = this.readyMachines.get(0);
                     mo.setSubjectState(readyMachine);
+                    this.readyMachines.remove(0);
                 }
             }
         }
