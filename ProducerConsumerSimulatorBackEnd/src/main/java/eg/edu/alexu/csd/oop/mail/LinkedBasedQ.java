@@ -60,7 +60,7 @@ public class LinkedBasedQ {
         }
         return head.getElement();
     }
-    public Object dequeue() {
+    public  Object dequeue() {
         if(isEmpty())
             throw new RuntimeException("Empty Queue");
 
@@ -72,7 +72,6 @@ public class LinkedBasedQ {
         return temp;
 
     }
-
 
     public boolean isEmpty() {
         if(size==0)

@@ -7,7 +7,7 @@ public class Machine implements Observable{
    private  Product currentProduct;
    private  ArrayList<Observer> qin=new ArrayList<Observer>();
    private  LinkedBasedQ qout=new LinkedBasedQ();
-   private  Boolean state=false; //The state of the machine (True for Working and false for Waiting)
+   private  Boolean state=true; //The state of the machine (True for Working and false for Waiting)
    private  int workingTime; //random int from 500 to 5000 milliseconds
 
 
@@ -56,7 +56,7 @@ public class Machine implements Observable{
 
     }
 
-    public void setState(Boolean state) {
+    public  void  setState(Boolean state) {
         this.state = state;
         notifyObservers();
     }

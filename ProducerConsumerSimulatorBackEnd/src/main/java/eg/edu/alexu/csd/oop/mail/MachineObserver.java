@@ -9,6 +9,10 @@ public class MachineObserver implements  Observer{
     public MachineObserver(LinkedBasedQ q,ArrayList<Machine> machines){
         this.q=q;
         this.machines=machines;
+        //At the beginning the readyMachines is same as machines
+        /*for(int i=0;i<machines.size();i++){
+            readyMachines.add(machines.get(i));
+        }*/
     }
 
     public ArrayList<Machine> getReadyMachines() {
@@ -18,6 +22,7 @@ public class MachineObserver implements  Observer{
     public Boolean getKillThread(){
         return this.killThread;
     }
+
     @Override
     public void update(Observable machine,Boolean machineState) {
         if(machineState==true){
@@ -30,6 +35,8 @@ public class MachineObserver implements  Observer{
     public LinkedBasedQ getQueue(){
         return this.q;
     }
+
+
     public void setSubjectState(Observable machine){
         int index=this.machines.indexOf(machine);
         this.machines.get(index).setState(true);//Notify the machine to start working

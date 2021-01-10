@@ -2,8 +2,8 @@ package eg.edu.alexu.csd.oop.mail;
 
 public class MachineRunner implements Runnable {
     private Machine m;
-    boolean killThread=false;
-    public MachineRunner(Machine m,int productsNumber){
+    private boolean killThread=false;
+    public MachineRunner(Machine m){
         this.m=m;
     }
     public void setKillThread(Boolean killThread){
@@ -12,27 +12,36 @@ public class MachineRunner implements Runnable {
     //Run Method
     @Override
     public void run(){//Consume from the first non empty queue or wait,Push the product after consuming in a random queue
+        Boolean t=true;
         while(!killThread) {
             //Loop to find the first non empty queue or notify  all queues that the machine is ready
             if(m.getState()) { //if the current machine is in the working state
                 int index=-1;
                 for(int i=0;i< m.getQin().size();i++){
-                    if(!m.getQin().get(i).getQueue().isEmpty()){
+                    LinkedBasedQ queue=m.getQin().get(i).getQueue();
+                    if(!queue.isEmpty()){
                         index=i;
                         break;
                     }
                 }
                 if(index!=-1){
                     LinkedBasedQ currentQin=m.getQin().get(index).getQueue();
-                    synchronized (currentQin){
-                        m.setCurrentProduct((Product)currentQin.dequeue());
-                        try {
-                            wait(this.m.getWorkingTime());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        m.getQout().enqueue(m.getCurrentProduct());
-                    }
+                   // synchronized (currentQin) {
+                        //while(!currentQin.isEmpty()){
+                            m.setCurrentProduct((Product) currentQin.dequeue());
+                            System.out.println(Thread.currentThread().getName() + " Is Serving");
+                            System.out.println("Serving Product "+ m.getCurrentProduct().getProductColor().toString());
+                            try {
+                                Thread.sleep(this.m.getWorkingTime());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("Finished Serving Product" + m.getCurrentProduct().getProductColor().toString());
+                            synchronized (m.getQout()) {
+                                m.getQout().enqueue(m.getCurrentProduct());
+                            }
+                        //}
+                   // }
                 }
                 else {//Change the state of the machine to be ready and Notify the queues that the machine is ready
                     m.setState(false);

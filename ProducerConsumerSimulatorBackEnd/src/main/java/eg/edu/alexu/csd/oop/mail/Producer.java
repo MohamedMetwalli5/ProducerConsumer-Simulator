@@ -15,10 +15,11 @@ public class Producer implements Runnable {
             synchronized (q0) {
                 Product producedProduct = new Product(generateRandomColor());
                 try {
-                    wait(productionTime);
+                    Thread.sleep(productionTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.println("Product Color "+producedProduct.getProductColor().toString() +" Has been Produced");
                 q0.enqueue(producedProduct);
             }
     }

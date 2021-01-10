@@ -59,7 +59,8 @@ public class MainClass {
     public ArrayList<Thread> startMachines(ArrayList<MachineRunner> machines){
         ArrayList<Thread> machineThreads=new ArrayList<>();
         for(int i=0;i<machines.size();i++){
-            Thread t=new Thread(machines.get(i));
+            String threadName="M"+(i+1);
+            Thread t=new Thread(machines.get(i),threadName);
             machineThreads.add(t);
             t.start();
         }
@@ -69,7 +70,8 @@ public class MainClass {
     public ArrayList<Thread> startQueues(ArrayList<MachineObserverRunner> queues){
         ArrayList<Thread> queueThreads=new ArrayList<>();
         for(int i=0;i<queues.size();i++){
-            Thread t=new Thread(queues.get(i));
+            String threadName="Q"+i;
+            Thread t=new Thread(queues.get(i),threadName);
             queueThreads.add(t);
             t.start();
         }
