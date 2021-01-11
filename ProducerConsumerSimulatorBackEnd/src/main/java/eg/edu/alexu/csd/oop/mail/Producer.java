@@ -3,14 +3,24 @@ import java.awt.*;
 import java.util.Random;
 
 public class Producer implements Runnable {
-    LinkedBasedQ q0=new LinkedBasedQ();
+    LinkedBasedQ q0;
+    int productionTime;
+    public Producer(LinkedBasedQ q0){
+        this.q0=q0;
+        productionTime=(int)(Math.random()*((2000-500+1)+500));
+    }
 
     //TODO A better way to get the random color of the Product
     public void run(){
             synchronized (q0) {
                 Product producedProduct = new Product(generateRandomColor());
+                try {
+                    Thread.sleep(productionTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Product Color "+producedProduct.getProductColor().toString() +" Has been Produced");
                 q0.enqueue(producedProduct);
-               //We call q0.notifyAll in the mainClass //TODO is there a better way ?
             }
     }
     public Color generateRandomColor(){

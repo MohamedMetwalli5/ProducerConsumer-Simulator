@@ -1,7 +1,9 @@
 package eg.edu.alexu.csd.oop.mail;
 
+import java.util.ArrayList;
+
 public class MainClass {
-    private Originator origin=new Originator();
+    /*private Originator origin=new Originator();
     private State originState=origin.getState();//TODO is this a good way to use the state of the originator ?
     //Production Thread is part of the Facade Class  because the Production thread doesn't change
     private Thread productionThread=new Thread(new Producer(),"Production Thread");
@@ -34,5 +36,63 @@ public class MainClass {
         Machine m=originState.getMachines().get(machineIndex);
         LinkedBasedQ qout=originState.getQueues().get(queueIndex);
         m.getQout().add(qout);
+    }*/
+
+
+    private Originator origin=new Originator();
+    private CareTaker ct=new CareTaker();
+    public ArrayList<Producer> produce(int productsNumber,LinkedBasedQ q0) {
+        ArrayList<Producer> producers = new ArrayList<Producer>();
+        ArrayList<Thread> producersThreads=new ArrayList<>();
+        //Creating the producing threads
+        for (int i = 0; i < productsNumber; i++) {
+            Producer p = new Producer(q0);
+            producers.add(p);
+            Thread t = new Thread(p);
+            producersThreads.add(t);
+        }
+        //Running the production threads
+        for (int i = 0; i < productsNumber; i++) {
+            producersThreads.get(i).start();
+        }
+        return producers;
+    }
+
+
+    public void startMachines(ArrayList<MachineRunner> machines){
+        ArrayList<Thread> machineThreads=new ArrayList<>();
+        for(int i=0;i<machines.size();i++){
+            String threadName="M"+(i+1);
+            Thread t=new Thread(machines.get(i),threadName);
+            machineThreads.add(t);
+            t.start();
+        }
+
+    }
+
+    public void startQueues(ArrayList<QueueRunner> queues){
+        ArrayList<Thread> queueThreads=new ArrayList<>();
+        for(int i=0;i<queues.size();i++){
+            String threadName="Q"+i;
+            Thread t=new Thread(queues.get(i),threadName);
+            queueThreads.add(t);
+            t.start();
+        }
+
+    }
+    public void saveCurrentSimulation(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0){
+        origin.setState(new State(machines,queues,producers,productsNumber,q0));
+        ct.addMomento(origin.saveStateToMomento());
+    }
+    public void loadPreviousSimulation(){
+        State currentState=ct.getMomento(ct.momentos.size()-1).getState();
+        simulate(currentState.getProductsNumber(),currentState.getQ0(), currentState.getMachines(), currentState.getQueues());
+    }
+
+
+    public void simulate(int productsNumber,LinkedBasedQ q0,ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues){
+        ArrayList<Producer> producers=produce(productsNumber,q0);
+        startMachines(machines);//TODO should we run machines then queues or queues then machines
+        startQueues(queues);
     }
 }
