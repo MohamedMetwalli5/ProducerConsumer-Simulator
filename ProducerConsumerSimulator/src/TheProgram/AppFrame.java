@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Ellipse2D;
+
 public class AppFrame extends JFrame{
     JButton button1;
     JButton button2;
@@ -76,10 +77,16 @@ public class AppFrame extends JFrame{
                 a.y+=50;
             }
             if(e.getSource() == button2) {
-                a.queues.add(new Rectangle2D.Double(a.x, a.y, 120, 70));
+                a.queues.add(new Ellipse2D.Double(a.x, a.y, 100, 100));
                 a.x+=50;
                 a.y+=50;
             }
+            
+            if(e.getSource() == button3) {
+            	a.connectionFlag = 1;
+            }
+            
+            
         }
     }
 }
