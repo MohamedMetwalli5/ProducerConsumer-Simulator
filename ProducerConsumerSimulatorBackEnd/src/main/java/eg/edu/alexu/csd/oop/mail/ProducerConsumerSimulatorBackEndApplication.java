@@ -98,27 +98,15 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		queues.add(new QueueRunner(moQ5));
 
 		MainClass main=new MainClass();
+		ArrayList<Producer>producers=main.produce(7,q0);
+		//main.simulate(machines,queues);
 
-		main.simulate(7,q0,machines,queues);
-		while(true){
-			if(q6.size()==7){
-				int i;
-				for(i=0;i<machines.size();i++){
-					machines.get(i).setKillThread(true);
-				}
-				for(i=0;i<queues.size();i++){
-					queues.get(i).setKillThread(true);
-				}
-				if(i==7){
-					break;
-				}
-			}
-			/*else {
-				System.out.println("==========================");
-				System.out.println(q6.size());
-				System.out.println("==========================");
-			}*/
-		}
+		main.saveCurrentSimulation(machines,queues,producers,productsNumber,q0,q6);
+		main.loadPreviousSimulation();
+		ThreadKiller tk=new ThreadKiller(machines,queues,q6,7);
+		Thread t=new Thread(tk,"ThreadKiller");
+		t.start();
+
 	}
 
 	/*public String produce(){

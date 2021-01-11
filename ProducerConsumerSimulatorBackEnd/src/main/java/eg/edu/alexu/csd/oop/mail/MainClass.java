@@ -41,21 +41,27 @@ public class MainClass {
 
     private Originator origin=new Originator();
     private CareTaker ct=new CareTaker();
+
     public ArrayList<Producer> produce(int productsNumber,LinkedBasedQ q0) {
         ArrayList<Producer> producers = new ArrayList<Producer>();
-        ArrayList<Thread> producersThreads=new ArrayList<>();
         //Creating the producing threads
         for (int i = 0; i < productsNumber; i++) {
             Producer p = new Producer(q0);
             producers.add(p);
             Thread t = new Thread(p);
+        }
+        return producers;
+    }
+    public void startProducers(ArrayList<Producer>producers,int productsNumber){
+        //Running the production threads
+        ArrayList<Thread> producersThreads=new ArrayList<>();
+        for(int i=0;i<producers.size();i++){
+            Thread t= new Thread(producers.get(i));
             producersThreads.add(t);
         }
-        //Running the production threads
         for (int i = 0; i < productsNumber; i++) {
             producersThreads.get(i).start();
         }
-        return producers;
     }
 
 
@@ -80,19 +86,21 @@ public class MainClass {
         }
 
     }
-    public void saveCurrentSimulation(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0){
-        origin.setState(new State(machines,queues,producers,productsNumber,q0));
+    public void saveCurrentSimulation(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0,LinkedBasedQ endQ){
+        origin.setState(new State(machines,queues,producers,productsNumber,q0,endQ));
         ct.addMomento(origin.saveStateToMomento());
     }
-    public void loadPreviousSimulation(){
-        State currentState=ct.getMomento(ct.momentos.size()-1).getState();
-        simulate(currentState.getProductsNumber(),currentState.getQ0(), currentState.getMachines(), currentState.getQueues());
+    public void loadPreviousSimulation() {
+        if (!ct.momentos.isEmpty()) {
+            State previousState = ct.getMomento(ct.momentos.size() - 1).getState();
+            simulate(previousState.getMachines(), previousState.getQueues(), previousState.getProducers(), previousState.getProductsNumber());
+        }
     }
 
-
-    public void simulate(int productsNumber,LinkedBasedQ q0,ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues){
-        ArrayList<Producer> producers=produce(productsNumber,q0);
+    public void simulate(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber){
+        startProducers(producers,productsNumber);
         startMachines(machines);//TODO should we run machines then queues or queues then machines
         startQueues(queues);
+
     }
 }

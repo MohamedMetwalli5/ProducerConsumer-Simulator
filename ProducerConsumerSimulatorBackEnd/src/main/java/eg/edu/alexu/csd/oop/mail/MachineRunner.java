@@ -12,7 +12,6 @@ public class MachineRunner implements Runnable {
     //Run Method
     @Override
     public void run(){//Consume from the first non empty queue or wait,Push the product after consuming in a random queue
-        Boolean t=true;
         while(!killThread) {
             synchronized (this){
                 if(m.getCurrentProduct()!=null){

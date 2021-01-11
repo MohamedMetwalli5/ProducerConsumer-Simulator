@@ -6,7 +6,7 @@ public class Machine implements Observable{
    private  volatile Color defaultColor;
    private   Product currentProduct;
    private  ArrayList<Observer> qin=new ArrayList<Observer>();
-   private  LinkedBasedQ qout=new LinkedBasedQ();
+   private   LinkedBasedQ qout=new LinkedBasedQ();
    private  volatile Boolean state=false; //The state of the machine (True for Working and false for Waiting)
    private  int workingTime; //random int from 500 to 5000 milliseconds
 

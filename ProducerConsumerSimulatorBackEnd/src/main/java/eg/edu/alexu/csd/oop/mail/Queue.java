@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.oop.mail;
 import java.util.ArrayList;
 
 public class Queue implements  Observer{
-    private LinkedBasedQ q;
+    private  LinkedBasedQ q;
     private ArrayList<Machine> machines;//The machines that serve the queue
     private volatile ArrayList<Machine> readyMachines=new ArrayList<>();
     private volatile Boolean killThread=false;
@@ -41,6 +41,7 @@ public class Queue implements  Observer{
     public  void sendProduct(Observable machine) {
         synchronized (machine){
             if (((Machine) machine).getState() == false) {
+
                 Product p = (Product) this.q.dequeue();
                 System.out.println("Sending " + p.getProductColor().toString());
                 ((Machine) machine).setCurrentProduct(p);//Notify the machine to start working

@@ -8,12 +8,14 @@ public class State {
     private ArrayList<Producer> producers;
     private  int productsNumber;
     private LinkedBasedQ q0;
-    public State(ArrayList<MachineRunner>machines,ArrayList<QueueRunner>queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0){
+    private LinkedBasedQ endQ;
+    public State(ArrayList<MachineRunner>machines,ArrayList<QueueRunner>queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0,LinkedBasedQ endQ){
         this.machines=machines;
         this.queues=queues;
         this.producers=producers;
         this.productsNumber=productsNumber;
         this.q0=q0;
+        this.endQ=endQ;
     }
 
     public ArrayList<MachineRunner> getMachines() {
