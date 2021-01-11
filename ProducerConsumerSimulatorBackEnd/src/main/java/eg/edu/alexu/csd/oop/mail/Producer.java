@@ -7,7 +7,7 @@ public class Producer implements Runnable {
     int productionTime;
     public Producer(LinkedBasedQ q0){
         this.q0=q0;
-        productionTime=(int)(Math.random()*((5000-500+1)+500));
+        productionTime=(int)(Math.random()*((2000-500+1)+500));
     }
 
     //TODO A better way to get the random color of the Product

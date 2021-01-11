@@ -3,11 +3,11 @@ package eg.edu.alexu.csd.oop.mail;
 import java.awt.*;
 import java.util.ArrayList;
 public class Machine implements Observable{
-   private  Color defaultColor;
-   private  Product currentProduct;
+   private  volatile Color defaultColor;
+   private   Product currentProduct;
    private  ArrayList<Observer> qin=new ArrayList<Observer>();
    private  LinkedBasedQ qout=new LinkedBasedQ();
-   private  Boolean state=true; //The state of the machine (True for Working and false for Waiting)
+   private  volatile Boolean state=false; //The state of the machine (True for Working and false for Waiting)
    private  int workingTime; //random int from 500 to 5000 milliseconds
 
 
@@ -26,12 +26,13 @@ public class Machine implements Observable{
         this.defaultColor = defaultColor;
     }
 
-    public Product getCurrentProduct() {
+    public  Product getCurrentProduct() {
         return currentProduct;
     }
 
-    public void setCurrentProduct(Product currentProduct) {
+    public  synchronized void setCurrentProduct(Product currentProduct) {
         this.currentProduct = currentProduct;
+        this.setState(true);
     }
 
     public ArrayList<Observer> getQin() {
@@ -50,7 +51,7 @@ public class Machine implements Observable{
         this.qout = qout;
     }
 
-    public Boolean getState() {
+    public  Boolean getState() {
 
         return state;
 

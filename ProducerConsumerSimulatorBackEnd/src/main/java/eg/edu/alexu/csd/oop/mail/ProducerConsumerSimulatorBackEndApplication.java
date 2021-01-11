@@ -1,17 +1,7 @@
 package eg.edu.alexu.csd.oop.mail;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class ProducerConsumerSimulatorBackEndApplication {
 
@@ -20,7 +10,7 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		LinkedBasedQ q0=new LinkedBasedQ();
 		int productsNumber=7;
 		ArrayList<MachineRunner>machines=new ArrayList<>();
-		ArrayList<MachineObserverRunner> queues=new ArrayList<>();
+		ArrayList<QueueRunner> queues=new ArrayList<>();
 
 		LinkedBasedQ q1=new LinkedBasedQ();
 		LinkedBasedQ q3=new LinkedBasedQ();
@@ -41,6 +31,15 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		ArrayList<Machine>machinesQ4=new ArrayList<>();
 		ArrayList<Machine>machinesQ5=new ArrayList<>();
 
+		//Setting Qout
+		m1.setQout(q1);
+		m2.setQout(q3);
+		m3.setQout(q3);
+		m4.setQout(q4);
+		m5.setQout(q5);
+		m6.setQout(q6);
+		m7.setQout(q6);
+		//Setting Qin
 		machinesQ0.add(m1);
 		machinesQ0.add(m4);
 		machinesQ1.add(m2);
@@ -51,19 +50,12 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		machinesQ5.add(m6);
 		machinesQ5.add(m7);
 
-		MachineObserver moQ0=new MachineObserver(q0,machinesQ0);
-		MachineObserver moQ1=new MachineObserver(q1,machinesQ1);
-		MachineObserver moQ3=new MachineObserver(q3,machinesQ3);
-		MachineObserver moQ4=new MachineObserver(q4,machinesQ4);
-		MachineObserver moQ5=new MachineObserver(q5,machinesQ5);
-		//Setting qOut
-		m1.setQout(q1);
-		m2.setQout(q3);
-		m3.setQout(q3);
-		m4.setQout(q4);
-		m5.setQout(q5);
-		m6.setQout(q6);
-		m7.setQout(q6);
+		Queue moQ0=new Queue(q0,machinesQ0);
+		Queue moQ1=new Queue(q1,machinesQ1);
+		Queue moQ3=new Queue(q3,machinesQ3);
+		Queue moQ4=new Queue(q4,machinesQ4);
+		Queue moQ5=new Queue(q5,machinesQ5);
+
 
 		ArrayList<Observer>queuesM1=new ArrayList<>();
 		ArrayList<Observer>queuesM2=new ArrayList<>();
@@ -99,11 +91,11 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		machines.add(new MachineRunner(m5));
 		machines.add(new MachineRunner(m6));
 		machines.add(new MachineRunner(m7));
-		queues.add(new MachineObserverRunner(moQ0));
-		queues.add(new MachineObserverRunner(moQ1));
-		queues.add(new MachineObserverRunner(moQ3));
-		queues.add(new MachineObserverRunner(moQ4));
-		queues.add(new MachineObserverRunner(moQ5));
+		queues.add(new QueueRunner(moQ0));
+		queues.add(new QueueRunner(moQ1));
+		queues.add(new QueueRunner(moQ3));
+		queues.add(new QueueRunner(moQ4));
+		queues.add(new QueueRunner(moQ5));
 
 		MainClass main=new MainClass();
 
@@ -121,6 +113,11 @@ public class ProducerConsumerSimulatorBackEndApplication {
 					break;
 				}
 			}
+			/*else {
+				System.out.println("==========================");
+				System.out.println(q6.size());
+				System.out.println("==========================");
+			}*/
 		}
 	}
 

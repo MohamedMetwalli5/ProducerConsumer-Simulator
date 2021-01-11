@@ -39,24 +39,27 @@ public class MainClass {
     }*/
 
 
-
-
-    public void produce(int productsNumber,LinkedBasedQ q0) {
-        ArrayList<Thread> producers = new ArrayList<Thread>();
+    private Originator origin=new Originator();
+    private CareTaker ct=new CareTaker();
+    public ArrayList<Producer> produce(int productsNumber,LinkedBasedQ q0) {
+        ArrayList<Producer> producers = new ArrayList<Producer>();
+        ArrayList<Thread> producersThreads=new ArrayList<>();
         //Creating the producing threads
         for (int i = 0; i < productsNumber; i++) {
             Producer p = new Producer(q0);
+            producers.add(p);
             Thread t = new Thread(p);
-            producers.add(t);
+            producersThreads.add(t);
         }
         //Running the production threads
         for (int i = 0; i < productsNumber; i++) {
-            producers.get(i).start();
+            producersThreads.get(i).start();
         }
+        return producers;
     }
 
 
-    public ArrayList<Thread> startMachines(ArrayList<MachineRunner> machines){
+    public void startMachines(ArrayList<MachineRunner> machines){
         ArrayList<Thread> machineThreads=new ArrayList<>();
         for(int i=0;i<machines.size();i++){
             String threadName="M"+(i+1);
@@ -64,10 +67,10 @@ public class MainClass {
             machineThreads.add(t);
             t.start();
         }
-        return machineThreads;
+
     }
 
-    public ArrayList<Thread> startQueues(ArrayList<MachineObserverRunner> queues){
+    public void startQueues(ArrayList<QueueRunner> queues){
         ArrayList<Thread> queueThreads=new ArrayList<>();
         for(int i=0;i<queues.size();i++){
             String threadName="Q"+i;
@@ -75,13 +78,21 @@ public class MainClass {
             queueThreads.add(t);
             t.start();
         }
-        return queueThreads;
+
+    }
+    public void saveCurrentSimulation(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0){
+        origin.setState(new State(machines,queues,producers,productsNumber,q0));
+        ct.addMomento(origin.saveStateToMomento());
+    }
+    public void loadPreviousSimulation(){
+        State currentState=ct.getMomento(ct.momentos.size()-1).getState();
+        simulate(currentState.getProductsNumber(),currentState.getQ0(), currentState.getMachines(), currentState.getQueues());
     }
 
 
-    public void simulate(int productsNumber,LinkedBasedQ q0,ArrayList<MachineRunner> machines,ArrayList<MachineObserverRunner> queues){
-        produce(productsNumber,q0);
-        ArrayList<Thread> machineThreads=startMachines(machines);//TODO should we run machines then queues or queues then machines
-        ArrayList<Thread> queueThreads=startQueues(queues);
+    public void simulate(int productsNumber,LinkedBasedQ q0,ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues){
+        ArrayList<Producer> producers=produce(productsNumber,q0);
+        startMachines(machines);//TODO should we run machines then queues or queues then machines
+        startQueues(queues);
     }
 }

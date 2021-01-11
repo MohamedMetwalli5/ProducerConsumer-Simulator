@@ -3,34 +3,56 @@ package eg.edu.alexu.csd.oop.mail;
 import java.util.ArrayList;
 
 public class State {
-    private ArrayList<Machine>machines;
-    private ArrayList<LinkedBasedQ>queues;
-    public State(ArrayList<Machine>machines,ArrayList<LinkedBasedQ>queues){
+    private ArrayList<MachineRunner>machines;
+    private ArrayList<QueueRunner>queues;
+    private ArrayList<Producer> producers;
+    private  int productsNumber;
+    private LinkedBasedQ q0;
+    public State(ArrayList<MachineRunner>machines,ArrayList<QueueRunner>queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0){
         this.machines=machines;
         this.queues=queues;
+        this.producers=producers;
+        this.productsNumber=productsNumber;
+        this.q0=q0;
     }
 
-    public ArrayList<Machine> getMachines() {
+    public ArrayList<MachineRunner> getMachines() {
         return machines;
     }
 
-    public void setMachines(ArrayList<Machine> machines) {
+    public void setMachines(ArrayList<MachineRunner> machines) {
         this.machines = machines;
     }
 
-    public ArrayList<LinkedBasedQ> getQueues() {
+    public ArrayList<QueueRunner> getQueues() {
         return queues;
     }
 
-    public void setQueues(ArrayList<LinkedBasedQ> queues) {
+    public void setQueues(ArrayList<QueueRunner> queues) {
         this.queues = queues;
     }
-    public void createMachine(){
-        //Machine m=new Machine();
-      //  machines.add(m);
+
+    public ArrayList<Producer> getProducers() {
+        return producers;
     }
-    public void createQueue(){
-        LinkedBasedQ q=new LinkedBasedQ();
-        queues.add(q);
+
+    public void setProducers(ArrayList<Producer> producers) {
+        this.producers = producers;
+    }
+
+    public int getProductsNumber() {
+        return productsNumber;
+    }
+
+    public void setProductsNumber(int productsNumber) {
+        this.productsNumber = productsNumber;
+    }
+
+    public LinkedBasedQ getQ0() {
+        return q0;
+    }
+
+    public void setQ0(LinkedBasedQ q0) {
+        this.q0 = q0;
     }
 }
