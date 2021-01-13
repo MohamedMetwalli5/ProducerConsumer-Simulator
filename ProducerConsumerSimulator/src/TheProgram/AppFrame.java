@@ -1,4 +1,4 @@
-package TheProgram;
+package main.java.eg.edu.alexu.csd.oop.mail;
 
 import javax.swing.*;
 import java.awt.*;
@@ -118,28 +118,40 @@ public class AppFrame extends JFrame  {
                 if ((t==null&&a.machines.size()>0&&a.queues.size()>0)||(a.machines.size()>0&&a.queues.size()>0&&!t.isAlive())) {
                     a.connectionFlag = 0;
                     LinkedBasedQ qIn = new LinkedBasedQ(), qOut = new LinkedBasedQ();
+                    int numOfQIn=0,numOfQOut=0;
                     for (int i = 0; i < a.ourQueues.size(); i++) {
                         if (a.ourQueues.get(i).getMachines().size() == 0) {
                             qOut = a.ourQueues.get(i).getQueue();
-                            break;
+                            numOfQOut++;
                         }
+                    }
+                    if (numOfQOut>1){
+                        return;
                     }
                     ArrayList<Boolean> queueTaken = new ArrayList<Boolean>();
                     for (int i = 0; i < a.ourQueues.size(); i++) {
                         queueTaken.add(false);
                     }
                     for (int i = 0; i < a.ourMachines.size(); i++) {
+                        boolean found=false;
                         for (int j = 0; j < a.ourQueues.size(); j++) {
                             if (a.ourQueues.get(j).getQueue() == a.ourMachines.get(i).getQout()) {
                                 queueTaken.set(j, true);
+                                found=true;
                             }
+                        }
+                        if (!found){
+                            return;
                         }
                     }
                     for (int i = 0; i < queueTaken.size(); i++) {
                         if (queueTaken.get(i) != true) {
                             qIn = a.ourQueues.get(i).getQueue();
-                            break;
+                            numOfQIn++;
                         }
+                    }
+                    if (numOfQIn>1){
+                        return;
                     }
                     try {
                         // checking valid integer using parseInt() method
