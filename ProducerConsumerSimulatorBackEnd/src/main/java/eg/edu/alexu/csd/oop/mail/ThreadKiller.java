@@ -6,6 +6,13 @@ public class ThreadKiller implements Runnable{
     private ArrayList<MachineRunner> machines;
     private ArrayList<QueueRunner> queues;
     private volatile LinkedBasedQ  endQ;
+    private boolean end=false;
+    public boolean isEnd() {
+        return end;
+    }
+    public void setEnd(boolean end) {
+        this.end = end;
+    }
     int productsNumber;
     ThreadKiller( ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,LinkedBasedQ endQ,int productsNumber){
         this.machines=machines;
@@ -24,6 +31,7 @@ public class ThreadKiller implements Runnable{
                     queues.get(i).setKillThread(true);
                 }
                 System.out.println("End");
+                end=true;
                 break;
             }
 

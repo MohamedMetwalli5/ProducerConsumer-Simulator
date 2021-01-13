@@ -18,10 +18,9 @@ public class MachineRunner implements Runnable {
         while(!killThread) {
             synchronized (this){
                 if(m.getCurrentProduct()!=null){
-                     System.out.println(Thread.currentThread().getName() + " Is Serving");
+                    System.out.println(Thread.currentThread().getName() + " Is Serving");
                     System.out.println("Serving Product " + m.getCurrentProduct().getProductColor().toString());
                     try {
-
                         Thread.sleep(this.m.getWorkingTime());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -29,15 +28,15 @@ public class MachineRunner implements Runnable {
                    System.out.println("Finished Serving Product" + m.getCurrentProduct().getProductColor().toString());
                     m.getQout().enqueue(m.getCurrentProduct());
                     m.setCurrentProduct(null);
+                    m.notifyApp();
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    m.setState(false);
                 }
-
             }
         }
     }
-
 }

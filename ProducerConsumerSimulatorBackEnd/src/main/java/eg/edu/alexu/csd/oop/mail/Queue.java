@@ -56,7 +56,6 @@ public class Queue implements  Observer{
         synchronized (machine){
             if (((Machine) machine).getState() == false) {
                 Product p = (Product) this.q.dequeue();
-
                 System.out.println("Sending " + p.getProductColor().toString());
                 ((Machine) machine).setCurrentProduct(p);//Notify the machine to start working
             }

@@ -23,15 +23,12 @@ public class QueueRunner implements Runnable {
         while(!killThread) {
             synchronized (this.mo.getQueue()) {
                 synchronized (readyMachines) {
-
                     if (!this.mo.getQueue().isEmpty() && !this.readyMachines.isEmpty()) {//if the queue has products and there are ready machines
                         Machine readyMachine = this.readyMachines.get(0);
-
                         mo.sendProduct(readyMachine);
                     }
                 }
             }
-
         }
     }
 }

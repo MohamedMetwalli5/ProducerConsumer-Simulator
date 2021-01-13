@@ -333,14 +333,14 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
     	if(connectionFlag == 0 && simulationFlag==0) {
 	        for (int i=0;i<machines.size();i++){
 	            if(machines.get(i).contains(e.getPoint())&&this.onMachine.get(i)){
-	                machines.set(i,new Ellipse2D.Double(e.getX()-50,e.getY()-50,100,100));
+	                machines.set(i,new Ellipse2D.Double(e.getX()-25,e.getY()-25,50,50));
 	                break;
 	                //repaint();
 	            }
 	        }
 	        for (int i=0;i<queues.size();i++){
 	            if(queues.get(i).contains(e.getPoint())&&this.onQueue.get(i)){
-	                queues.set(i,new Rectangle2D.Double(e.getX()-60,e.getY()-35,120,70));
+	                queues.set(i,new Rectangle2D.Double(e.getX()-25,e.getY()-25,70,50));
 	                break;
 	                //repaint();
 	            }
@@ -353,7 +353,7 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
 
     }
     @Override
-    public  void update(Observable machine, Boolean machineState) {
+    public synchronized void update(Observable machine, Boolean machineState) {
         Machine sentMachine =(Machine)machine;
         int index=ourMachines.indexOf(machine);
 
@@ -363,17 +363,12 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
         else {
             this.machineColors.set(index,Color.white);
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             this.machineColors.set(index,Color.green);
-        }
-        try {
-            Thread.sleep(450);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            }
     }
 
     @Override

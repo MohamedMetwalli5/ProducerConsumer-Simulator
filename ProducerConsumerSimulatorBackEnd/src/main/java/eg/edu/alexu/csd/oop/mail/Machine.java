@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Machine implements Observable{
    private   Color defaultColor=Color.green;
    private   Product currentProduct;
-   private Color currentColor=defaultColor;
    private  ArrayList<Observer> qin=new ArrayList<Observer>();
    private   LinkedBasedQ qout=new LinkedBasedQ();
    private  volatile Boolean state=false; //The state of the machine (True for Working and false for Waiting)
@@ -25,14 +24,6 @@ public class Machine implements Observable{
         this.app=app;
     }
 
-    public Color getCurrentColor() {
-        return currentColor;
-    }
-
-    public void setCurrentColor(Color currentColor) {
-        this.currentColor = currentColor;
-    }
-
     public Color getDefaultColor() {
         return defaultColor;
     }
@@ -50,8 +41,6 @@ public class Machine implements Observable{
         if(currentProduct!=null){
             this.setState(true);
         }
-        else
-        this.setState(false);
     }
 
     public ArrayList<Observer> getQin() {
@@ -79,7 +68,9 @@ public class Machine implements Observable{
     public  void  setState(Boolean state) {
         this.state = state;
         notifyObservers();
-        notifyApp();
+        if (state!=false){
+            notifyApp();
+        }
     }
 
     public int getWorkingTime() {
@@ -111,7 +102,6 @@ public class Machine implements Observable{
     public void notifyApp() {
         synchronized (this.app) {
             this.app.update(this, this.state);
-
         }
     }
 }

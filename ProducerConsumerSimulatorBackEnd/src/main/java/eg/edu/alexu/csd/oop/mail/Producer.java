@@ -15,16 +15,14 @@ public class Producer implements Runnable {
 
     //TODO A better way to get the random color of the Product
     public void run(){
-           // synchronized (q0) {
-                Product producedProduct = new Product(randomColor);
-                try {
-                    Thread.sleep(productionTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Product Color "+producedProduct.getProductColor().toString() +" Has been Produced");
-                q0.enqueue(producedProduct);
-           // }
+            Product producedProduct = new Product(randomColor);
+            try {
+                Thread.sleep(productionTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Product Color "+producedProduct.getProductColor().toString() +" Has been Produced");
+            q0.enqueue(producedProduct);
     }
     public Color generateRandomColor(){
         Random rand = new Random();
@@ -34,5 +32,4 @@ public class Producer implements Runnable {
         Color productColor = new Color(r,g,b);
         return productColor;
     }
-
 }
