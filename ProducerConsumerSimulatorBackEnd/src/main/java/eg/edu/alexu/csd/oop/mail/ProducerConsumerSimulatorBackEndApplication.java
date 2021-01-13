@@ -108,39 +108,4 @@ public class ProducerConsumerSimulatorBackEndApplication {
 		t.start();
 
 	}
-
-	/*public String produce(){
-		return main.produce();
-	}
-
-	public void createMachine(){
-		main.createMachine();
-	}
-
-	public void createQueue(){
-		main.createQueue();
-	}
-
-	public void addInQueue(@RequestBody String indices){//TODO consistent with request sent from frontend (name is machineIndex and queueIndex)
-		ObjectMapper mapper=new ObjectMapper();
-		Map<String,Integer> indicesMap=null;
-		try {
-			indicesMap=(Map<String,Integer>)mapper.readValue(indices, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		main.addInQueue(indicesMap.get("machineIndex"),indicesMap.get("queueIndex"));
-	}
-
-	public void addOutQueue(@RequestBody String indices){//Todo consistent with request sent from frontend (name is machineIndex and queueIndex)
-		ObjectMapper mapper=new ObjectMapper();
-		Map<String,Integer> indicesMap=null;
-		try {
-			indicesMap=(Map<String,Integer>)mapper.readValue(indices, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		main.addOutQueue(indicesMap.get("machineIndex"),indicesMap.get("queueIndex"));
-	}*/
-
 }

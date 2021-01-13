@@ -10,7 +10,6 @@ public class Machine implements Observable{
    private   LinkedBasedQ qout=new LinkedBasedQ();
    private  volatile Boolean state=false; //The state of the machine (True for Working and false for Waiting)
    private  int workingTime; //random int from 500 to 5000 milliseconds
-    private volatile Graphics2D GUIMachine=null;
     private App app;
     //Constructor
     public Machine(){
@@ -25,9 +24,6 @@ public class Machine implements Observable{
     public void setAppFrame(App app){
         this.app=app;
     }
-    public Graphics2D getGUIMachine() {
-        return GUIMachine;
-    }
 
     public Color getCurrentColor() {
         return currentColor;
@@ -37,9 +33,6 @@ public class Machine implements Observable{
         this.currentColor = currentColor;
     }
 
-    public void setGUIMachine(Graphics2D GUIMachine) {
-        this.GUIMachine = GUIMachine;
-    }
     public Color getDefaultColor() {
         return defaultColor;
     }

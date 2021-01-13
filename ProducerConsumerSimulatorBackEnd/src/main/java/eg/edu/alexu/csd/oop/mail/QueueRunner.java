@@ -35,8 +35,3 @@ public class QueueRunner implements Runnable {
         }
     }
 }
-/*
-If two threads change the state of the same machine at the same time there is no problem (no synchronized)
-ReadyMachines don't need synchronization because it is arrayList accessible only from mo
-Is empty is synchronized
- */
