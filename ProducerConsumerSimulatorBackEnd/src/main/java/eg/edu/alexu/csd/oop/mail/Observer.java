@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.mail;
+package main.java.eg.edu.alexu.csd.oop.mail;
 
 public interface Observer {
      //Index of the machine which is ready

@@ -1,5 +1,4 @@
-package eg.edu.alexu.csd.oop.mail;
-
+package main.java.eg.edu.alexu.csd.oop.mail;
 
 import java.util.ArrayList;
 

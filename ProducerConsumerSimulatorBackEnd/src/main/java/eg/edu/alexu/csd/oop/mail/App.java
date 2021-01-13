@@ -1,10 +1,11 @@
-package eg.edu.alexu.csd.oop.mail;
+package main.java.eg.edu.alexu.csd.oop.mail;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -34,12 +35,28 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
         addMouseMotionListener(this);
         addMouseListener(this);
         setFocusable(true);
+        time = 1;
+        onMachine =new ArrayList<>();
+        onQueue =new ArrayList<>();
+        connectionFlag = 0;
+        t = new Timer(time,this);
+        x = 150;
+        y = 150;
+        ourMachines=new ArrayList<>();
+        ourQueues=new ArrayList<>();
+        machines = new ArrayList<>();
+        queues = new ArrayList<>();
+        coordinates = new ArrayList<Point>();
+        betweenMachine = new ArrayList<>();
+        betweenQueue = new ArrayList<>();
+        machineColors=new ArrayList<>();
+        simulationFlag=0;
     }
 
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-         gMachine = (Graphics2D)g;
+        gMachine = (Graphics2D)g;
         gMachine.setColor(Color.green);
         for (int i=0;i<machines.size();i++){
             gMachine.setColor(machineColors.get(i));

@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.mail;
+package main.java.eg.edu.alexu.csd.oop.mail;
 public class LinkedBasedQ {
     public class Node{
         private Object element;

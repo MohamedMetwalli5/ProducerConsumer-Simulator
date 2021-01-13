@@ -1,6 +1,4 @@
-package eg.edu.alexu.csd.oop.mail;
-
-
+package main.java.eg.edu.alexu.csd.oop.mail;
 
 public class MachineRunner implements Runnable {
     private Machine m;
