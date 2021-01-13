@@ -40,9 +40,12 @@ public class MainClass {
 
 
     private Originator origin=new Originator();
-    private CareTaker ct=new CareTaker();
 
-    public ArrayList<Producer> produce(int productsNumber,LinkedBasedQ q0) {
+    public Originator getOrigin() {
+        return origin;
+    }
+
+    public ArrayList<Producer> produce(int productsNumber, LinkedBasedQ q0) {
         ArrayList<Producer> producers = new ArrayList<Producer>();
         //Creating the producing threads
         for (int i = 0; i < productsNumber; i++) {
@@ -88,12 +91,15 @@ public class MainClass {
     }
     public void saveCurrentSimulation(ArrayList<MachineRunner> machines,ArrayList<QueueRunner> queues,ArrayList<Producer> producers,int productsNumber,LinkedBasedQ q0,LinkedBasedQ endQ){
         origin.setState(new State(machines,queues,producers,productsNumber,q0,endQ));
-        ct.addMomento(origin.saveStateToMomento());
     }
-    public void loadPreviousSimulation() {
-        if (!ct.momentos.isEmpty()) {
-            State previousState = ct.getMomento(ct.momentos.size() - 1).getState();
+    public Boolean loadPreviousSimulation() {
+        if (origin.getState()!=null) {
+            State previousState = origin.getState();
             simulate(previousState.getMachines(), previousState.getQueues(), previousState.getProducers(), previousState.getProductsNumber());
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

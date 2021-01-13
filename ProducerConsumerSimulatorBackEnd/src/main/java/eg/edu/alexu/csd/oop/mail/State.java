@@ -18,6 +18,14 @@ public class State {
         this.endQ=endQ;
     }
 
+    public LinkedBasedQ getEndQ() {
+        return endQ;
+    }
+
+    public void setEndQ(LinkedBasedQ endQ) {
+        this.endQ = endQ;
+    }
+
     public ArrayList<MachineRunner> getMachines() {
         return machines;
     }

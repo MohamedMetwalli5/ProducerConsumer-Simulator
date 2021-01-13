@@ -9,10 +9,23 @@ public class Queue implements  Observer{
     public Queue(LinkedBasedQ q, ArrayList<Machine> machines){
         this.q=q;
         this.machines=machines;
+
+    }
+    public void setReadyMachines(){
         //At the beginning the readyMachines is same as machines(all machines are ready at the beginning)
         for(int i=0;i<machines.size();i++){
             readyMachines.add(machines.get(i));
         }
+    }
+
+    public void resetReadyMachines(){
+        for(int i=0;i<machines.size();i++){
+            readyMachines.set(i,machines.get(i));
+        }
+    }
+
+    public ArrayList<Machine> getMachines() {
+        return machines;
     }
 
     public ArrayList<Machine> getReadyMachines() {
@@ -41,8 +54,8 @@ public class Queue implements  Observer{
     public  void sendProduct(Observable machine) {
         synchronized (machine){
             if (((Machine) machine).getState() == false) {
-
                 Product p = (Product) this.q.dequeue();
+
                 System.out.println("Sending " + p.getProductColor().toString());
                 ((Machine) machine).setCurrentProduct(p);//Notify the machine to start working
             }
