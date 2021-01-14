@@ -1,11 +1,13 @@
 package TheProgram;
 
+import com.sun.source.tree.IfTree;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -30,6 +32,8 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
     public volatile ArrayList<Color> machineColors=new ArrayList<>();
     public static int simulationFlag=0;
     Graphics2D gMachine;
+    boolean rightToLeft=true;
+    boolean upToDown=true;
     public App() {
         registerKeys();
         addMouseMotionListener(this);
@@ -65,7 +69,7 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
             gMachine.drawString("M"+i,(float) machines.get(i).getX(),(float) machines.get(i).getY());
             gMachine.setColor(Color.green);
         }
-        
+
         gMachine.setColor(Color.yellow);
         for (int j=0;j<queues.size();j++){
             gMachine.fill(queues.get(j));
@@ -75,7 +79,7 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
                 gMachine.drawString("Q"+j+"     "+ ourQueues.get(j).getQueue().size(),(float) queues.get(j).getX(),(float) queues.get(j).getY());
             }
             else
-            gMachine.drawString("Q"+j+"     "+ 0,(float) queues.get(j).getX(),(float) queues.get(j).getY());
+                gMachine.drawString("Q"+j+"     "+ 0,(float) queues.get(j).getX(),(float) queues.get(j).getY());
             gMachine.setColor(Color.yellow);
         }
         if (betweenMachine.size()==betweenQueue.size() && simulationFlag==0){
@@ -97,10 +101,22 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
             for (int i=0;i<queues.size();i++){
                 ourQueues.add(new Queue(new LinkedBasedQ(),new ArrayList<>()));
             }
+            if (betweenMachine.size()==1&&betweenQueue.size()==1){
+                double xDifferenc=Math.abs(machines.get(betweenMachine.get(0)).getCenterX()-queues.get(betweenQueue.get(0)).getCenterX());
+                double yDifferenc=Math.abs(machines.get(betweenMachine.get(0)).getCenterY()-queues.get(betweenQueue.get(0)).getCenterY());
+                if (xDifferenc>=yDifferenc){
+                    rightToLeft=true;
+                    upToDown=false;
+                }
+                else {
+                    rightToLeft=false;
+                    upToDown=true;
+                }
+            }
             for (int i=0;i<betweenMachine.size();i++){
                 double xDifferenc=Math.abs(machines.get(betweenMachine.get(i)).getCenterX()-queues.get(betweenQueue.get(i)).getCenterX());
                 double yDifferenc=Math.abs(machines.get(betweenMachine.get(i)).getCenterY()-queues.get(betweenQueue.get(i)).getCenterY());
-                if (xDifferenc>=yDifferenc){
+                if ((rightToLeft&&!upToDown)||xDifferenc>=yDifferenc){
                     if (machines.get(betweenMachine.get(i)).getCenterX()<queues.get(betweenQueue.get(i)).getCenterX()){
                         //Machine *------------  queue
                         //the Queue is (Queue in) Proportionally to the machine
@@ -330,22 +346,22 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
 
     @Override
     public void mouseDragged(MouseEvent e) {
-    	if(connectionFlag == 0 && simulationFlag==0) {
-	        for (int i=0;i<machines.size();i++){
-	            if(machines.get(i).contains(e.getPoint())&&this.onMachine.get(i)){
-	                machines.set(i,new Ellipse2D.Double(e.getX()-25,e.getY()-25,50,50));
-	                break;
-	                //repaint();
-	            }
-	        }
-	        for (int i=0;i<queues.size();i++){
-	            if(queues.get(i).contains(e.getPoint())&&this.onQueue.get(i)){
-	                queues.set(i,new Rectangle2D.Double(e.getX()-25,e.getY()-25,70,50));
-	                break;
-	                //repaint();
-	            }
-	        }
-	    }
+        if(connectionFlag == 0 && simulationFlag==0) {
+            for (int i=0;i<machines.size();i++){
+                if(machines.get(i).contains(e.getPoint())&&this.onMachine.get(i)){
+                    machines.set(i,new Ellipse2D.Double(e.getX()-25,e.getY()-25,50,50));
+                    break;
+                    //repaint();
+                }
+            }
+            for (int i=0;i<queues.size();i++){
+                if(queues.get(i).contains(e.getPoint())&&this.onQueue.get(i)){
+                    queues.set(i,new Rectangle2D.Double(e.getX()-25,e.getY()-25,70,50));
+                    break;
+                    //repaint();
+                }
+            }
+        }
     }
 
     @Override
@@ -368,7 +384,8 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
                 e.printStackTrace();
             }
             this.machineColors.set(index,Color.green);
-            }
+
+        }
     }
 
     @Override
