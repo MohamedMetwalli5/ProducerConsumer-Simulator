@@ -128,6 +128,7 @@ public class AppFrame extends JFrame  {
                         }
                     }
                     if (numOfQOut>1){
+                        this.simulated=false;
                         return;
                     }
                     ArrayList<Boolean> queueTaken = new ArrayList<Boolean>();
@@ -143,6 +144,7 @@ public class AppFrame extends JFrame  {
                             }
                         }
                         if (!found){
+                            this.simulated=false;
                             return;
                         }
                     }
@@ -153,6 +155,7 @@ public class AppFrame extends JFrame  {
                         }
                     }
                     if (numOfQIn>1){
+                        this.simulated=false;
                         return;
                     }
                     try {
@@ -210,7 +213,7 @@ public class AppFrame extends JFrame  {
                         while (!endQ.isEmpty()) {
                             endQ.dequeue();
                         }
-                        System.out.println(mc.loadPreviousSimulation());
+                        mc.loadPreviousSimulation();
                         tk = new ThreadKiller(machines, queues, endQ, productsNumber);
                         t = new Thread(tk);
                         t.start();
