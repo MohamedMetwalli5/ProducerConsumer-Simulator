@@ -1,4 +1,4 @@
-package main.java.eg.edu.alexu.csd.oop.mail;
+package TheProgram;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,10 +84,11 @@ public class AppFrame extends JFrame  {
 
 
     private class eve implements ActionListener {
+        boolean simulated=false;
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == button1) {//Add Macine
-                if (t==null||!t.isAlive()) {
+                if ((t==null||!t.isAlive())&&!this.simulated) {
                     a.machines.add(new Ellipse2D.Double(a.x, a.y, 50, 50));
                     a.x += 25;
                     a.y += 25;
@@ -97,7 +98,7 @@ public class AppFrame extends JFrame  {
                 }
             }
             if (e.getSource() == button2) {//Add Queue
-                if (t==null||!t.isAlive()) {
+                if ((t==null||!t.isAlive())&&!this.simulated) {
                     a.queues.add(new Rectangle2D.Double(a.x, a.y, 70, 50));
                     a.x += 25;
                     a.y += 25;
@@ -107,7 +108,7 @@ public class AppFrame extends JFrame  {
             }
 
             if (e.getSource() == button3) {//Connect
-                if (t==null||!t.isAlive()) {
+                if ((t==null||!t.isAlive())&&!this.simulated) {
                     if (a.machines.size() > 0 && a.queues.size() > 0) {
                         a.connectionFlag = 1;
                     }
@@ -115,7 +116,8 @@ public class AppFrame extends JFrame  {
             }
 
             if (e.getSource() == button4) {//Start Simulation
-                if ((t==null&&a.machines.size()>0&&a.queues.size()>0)||(a.machines.size()>0&&a.queues.size()>0&&!t.isAlive())) {
+                if (((t==null&&a.machines.size()>0&&a.queues.size()>0)||(a.machines.size()>0&&a.queues.size()>0&&!t.isAlive()))&&!this.simulated) {
+                    this.simulated=true;
                     a.connectionFlag = 0;
                     LinkedBasedQ qIn = new LinkedBasedQ(), qOut = new LinkedBasedQ();
                     int numOfQIn=0,numOfQOut=0;
