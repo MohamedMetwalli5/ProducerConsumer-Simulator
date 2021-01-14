@@ -116,7 +116,7 @@ public class App extends JPanel implements ActionListener,MouseListener,MouseMot
             for (int i=0;i<betweenMachine.size();i++){
                 double xDifferenc=Math.abs(machines.get(betweenMachine.get(i)).getCenterX()-queues.get(betweenQueue.get(i)).getCenterX());
                 double yDifferenc=Math.abs(machines.get(betweenMachine.get(i)).getCenterY()-queues.get(betweenQueue.get(i)).getCenterY());
-                if ((rightToLeft&&!upToDown)||xDifferenc>=yDifferenc){
+                if ((rightToLeft&&!upToDown)&&xDifferenc>=yDifferenc){
                     if (machines.get(betweenMachine.get(i)).getCenterX()<queues.get(betweenQueue.get(i)).getCenterX()){
                         //Machine *------------  queue
                         //the Queue is (Queue in) Proportionally to the machine
